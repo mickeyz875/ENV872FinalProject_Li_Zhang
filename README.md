@@ -1,0 +1,2 @@
+This is the course project of ENV 872 Environmental Data Exploration, in collaboration of Mickey Zhang and Shuer Li.
+This project explores how social vulnerability relates to forest cover (tree canopy) across North Carolina counties. Using county-level data from the CDC Social Vulnerability Index (SVI, 2018) and tree canopy data from the NLCD 2019 Tree Canopy Cover dataset, we investigate whether areas with higher vulnerability have lower access to forest and green space.
