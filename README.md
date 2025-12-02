@@ -43,20 +43,15 @@ Environmental justice, social vulnerability, forest cover, tree canopy, land cov
 
 ## Folder structure, file formats, and naming conventions 
 
-ENV872FinalProject_Li_Zhang/
-│
+ENV872FinalProject_Li_Zhang/ \
 ├── Data/ \
 │   ├── raw/                  # Unmodified original downloads \
 │   └── processed/            # Final analysis-ready datasets \
-│\
 ├── Scripts/ \
 │   ├── DataProcessing & Wrangling.R        # cleaning, reprojection, extraction \
 │   └── Analysis.R                          # models, statistics, and plotting code \
-│ \
 ├── Outputs/                  # RMD/PDF reports \
-│     \
 ├── Docs/                     # Project rubric,sample project, data provenance notes \
-│\
 ├── .gitignore \
 └── README.md \
 
