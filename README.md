@@ -10,7 +10,7 @@ The project uses geospatial analysis and regression modeling in R to:
   - Examine correlations between SVI scores and forest cover.
   - Map spatial patterns of social vulnerability and canopy cover.
 
-Data sources include the Social Vulnerability Index (2018) and NC Tree Canopy Cover (2016).
+Data sources include the Social Vulnerability Index (2022) and NC Tree Canopy Cover (2016).
 
 ## Investigators
 
@@ -37,6 +37,7 @@ Environmental justice, social vulnerability, forest cover, tree canopy, land cov
 ## Database Information
 
 1. 2016 Forest Land Cover (NC OneMap / NCDA&CS): Access on December 2 2025, via NC OneMap data portal’s “Forest Land Cover 2016” dataset (https://www.nconemap.gov/datasets/ncagr::forest-land-cover-2016/explore?location=35.033142%2C-); download raster or geodatabase layers as needed for North Carolina. 
+https://github.com/mickeyz875/ENV872FinalProject_Li_Zhang/releases/triangleTC.zip
 
 
 2. Social Vulnerability Index (CDC/ATSDR): Access on December 2 2025, via the CDC/ATSDR SVI data download page (https://www.atsdr.cdc.gov/place-health/php/svi/svi-interactive-map.html); select “United States” or “North Carolina” for geography; download CSV or shapefile containing SVI scores.
