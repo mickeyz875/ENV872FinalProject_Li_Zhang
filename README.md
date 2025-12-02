@@ -14,7 +14,7 @@ Data sources include the Social Vulnerability Index (2022) and NC Tree Canopy Co
 
 ## Investigators
 
-Shu'er Li 
+Shu'er Li \
 MEM Candidate'27 \
 Nicholas School of the Environment, Duke University \
 shuer.li@duke.edu \
