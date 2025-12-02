@@ -17,19 +17,18 @@ Data sources include the CDC Social Vulnerability Index (2018) and NLCD Tree Can
 Shu'er Li 
 MEM Candidate'27 \
 Nicholas School of the Environment, Duke University \
-shuer.li@duke.edu
-Role:  responsible for data analysis and visualization.
+shuer.li@duke.edu \
+Role:  responsible for data analysis and visualization.\
 
 Mickey Zhang
-MEM Candidate' 25
-Nicholas School of the Environment, Duke University
-mickey.zhang@duke.edu
-Role: responsible for data processing and wrangling, and documentation.
+MEM Candidate' 25 \
+Nicholas School of the Environment, Duke University \ 
+mickey.zhang@duke.edu \ 
+Role: responsible for data processing and wrangling, and documentation. \
 
-
-Course: ENV 872 – Environmental Data Analytics
-Instructor: John Fay & Luana Lima
-Role: Project advisor
+John Fay & Luana Lima \
+ENV 872 – Environmental Data Analytics instructors \
+Role: project advisors \
 
 ## Keywords
 
@@ -44,16 +43,26 @@ Environmental justice, social vulnerability, forest cover, tree canopy, land cov
 
 ## Folder structure, file formats, and naming conventions 
 
-<describe the folders contained in the repository, including what type of files they contain>
-
-<describe the formats of files for the various purposes contained in the repository>
-
-<describe your file naming conventions>
+ENV872FinalProject_Li_Zhang/
+│
+├── Data/
+│   ├── raw/                  # Unmodified original downloads 
+│   └── processed/            # Final analysis-ready datasets 
+│
+├── Scripts/
+│   ├── DataProcessing & Wrangling.R        # cleaning, reprojection, extraction
+│   └── Analysis.R                          # models, statistics, and plotting code
+│
+├── Outputs/                  # RMD/PDF reports
+│     
+├── Docs/                     # Project rubric,sample project, data provenance notes
+│
+├── .gitignore
+└── README.md
 
 ## Metadata
-
-<For each data file in the repository, describe the data contained in each column. Include the column name, a description of the information, the class of data, and any units associated with the data. Create a list or table for each data file.> 
+<For each data file in the repository, describe the data contained in each column. Include the column name, a description of the information, the class of data, and any units associated with the data. Create a list or table for each data file.>
 
 ## Scripts and code
-
-<list any software scripts/code contained in the repository and a description of their purpose.>
+- DataProcessing & Wrangling.R  contains codes for data cleaning, reprojection, extraction
+- Analysis.R   contains codes for data analysis and visualization
