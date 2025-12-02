@@ -45,20 +45,20 @@ Environmental justice, social vulnerability, forest cover, tree canopy, land cov
 
 ENV872FinalProject_Li_Zhang/
 │
-├── Data/
-│   ├── raw/                  # Unmodified original downloads 
-│   └── processed/            # Final analysis-ready datasets 
-│
-├── Scripts/
-│   ├── DataProcessing & Wrangling.R        # cleaning, reprojection, extraction
-│   └── Analysis.R                          # models, statistics, and plotting code
-│
-├── Outputs/                  # RMD/PDF reports
-│     
-├── Docs/                     # Project rubric,sample project, data provenance notes
-│
-├── .gitignore
-└── README.md
+├── Data/ \
+│   ├── raw/                  # Unmodified original downloads \
+│   └── processed/            # Final analysis-ready datasets \
+│\
+├── Scripts/ \
+│   ├── DataProcessing & Wrangling.R        # cleaning, reprojection, extraction \
+│   └── Analysis.R                          # models, statistics, and plotting code \
+│ \
+├── Outputs/                  # RMD/PDF reports \
+│     \
+├── Docs/                     # Project rubric,sample project, data provenance notes \
+│\
+├── .gitignore \
+└── README.md \
 
 ## Metadata
 <For each data file in the repository, describe the data contained in each column. Include the column name, a description of the information, the class of data, and any units associated with the data. Create a list or table for each data file.>
