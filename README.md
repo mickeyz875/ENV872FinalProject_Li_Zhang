@@ -18,17 +18,17 @@ Shu'er Li
 MEM Candidate'27 \
 Nicholas School of the Environment, Duke University \
 shuer.li@duke.edu \
-Role:  responsible for data analysis and visualization.\
+Role:  responsible for data analysis and visualization.
 
-Mickey Zhang
-MEM Candidate' 25 \
+Mickey Zhang \
+MEM Candidate' 25  \
 Nicholas School of the Environment, Duke University \ 
 mickey.zhang@duke.edu \ 
-Role: responsible for data processing and wrangling, and documentation. \
+Role: responsible for data processing and wrangling, and documentation. 
 
 John Fay & Luana Lima \
-ENV 872 – Environmental Data Analytics instructors \
-Role: project advisors \
+ENV 872 – Environmental Data Analytics instructors  \
+Role: project advisors
 
 ## Keywords
 
