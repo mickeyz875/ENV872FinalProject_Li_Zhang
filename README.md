@@ -15,13 +15,9 @@ Data sources include the CDC Social Vulnerability Index (2018) and NLCD Tree Can
 ## Investigators
 
 Shu'er Li 
-
-MEM Candidate'27
-
+MEM Candidate'27 \newline
 Nicholas School of the Environment, Duke University
-
 shuer.li@duke.edu
-
 Role:  responsible for data analysis and visualization.
 
 Mickey Zhang
