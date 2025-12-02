@@ -22,7 +22,7 @@ Role:  responsible for data analysis and visualization.
 
 Mickey Zhang \
 MEM Candidate' 25  \
-Nicholas School of the Environment, Duke University \  
+Nicholas School of the Environment, Duke University \
 mickey.zhang@duke.edu \
 Role: responsible for data processing and wrangling, and documentation. 
 
