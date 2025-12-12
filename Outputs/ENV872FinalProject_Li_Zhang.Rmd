@@ -1,25 +1,45 @@
 ---
-output: 
+title: "Tree Cover and Social Vulnerability in the North Carolina Triangle Region"
+author: "Mickey Zhang and Shuer Li"
+subtitle: "https://github.com/mickeyz875/ENV872FinalProject_Li_Zhang"
+output:
+  bookdown::html_document2:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    fig_caption: true
+    df_print: paged
   pdf_document:
     keep_tex: yes
     fig_caption: yes
-    number_sections: yes
 geometry: margin=2.54cm
-title: "Tree Cover and Social Vulnerability in the North Carolina Triangle Region"
-subtitle: "https://github.com/mickeyz875/ENV872FinalProject_Li_Zhang"
-author: "Mickey Zhang and Shuer Li"
 fontsize: 12pt
 mainfont: Times New Roman
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
 \newpage
-\tableofcontents 
+\tableofcontents
 \newpage
-\listoftables 
+
+## List of Tables
+*Dataset Information*
+- Table \@ref(tab:table1): Dataset structure (variables and descriptions)
+
 \newpage
-\listoffigures 
+
+## List of Figures
+*Exploratory Analysis*
+
+- Figure \@ref(fig:fig-hist-canopy): Distribution of mean tree canopy cover
+
+- Figure \@ref(fig:fig-hist-svi): Distribution of overall social vulnerability (RPL_THEMES)
+
+- Figure \@ref(fig:fig-scatter-eda): Relationship between canopy cover and social vulnerability
+
+\newpage
+\listoffigures
 \newpage
 
 ```{r setup, include=FALSE}
@@ -33,6 +53,15 @@ library(sf)
 library(mapview)
 library(leaflet)
 library(terra)
+library(knitr)
+
+# Global chunk options: show figures but hide code unless explicitly overridden
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
 
 # Set your ggplot theme
 ourtheme <- theme_bw(base_size = 12) +
@@ -41,6 +70,7 @@ ourtheme <- theme_bw(base_size = 12) +
 theme_set(ourtheme)
 
 # Load your datasets
+# 1) SVI shapefile (raw)
 NCtracts <- st_read(here("Data/Raw/SVI2022_NC_byTract/SVI2022_NC_bytract.shp"))
 
 triangle_counties <- c("Durham County", "Wake County", "Orange County")
@@ -56,6 +86,7 @@ triangle_tracts <- NCtracts %>%
   mutate(COUNTY   = as.factor(COUNTY),
          LOCATION = as.factor(LOCATION))
 
+# 2) Processed canopy extraction result
 canopy_df <- read.csv(here("Data/Processed/triangle_percent_tree_cover.csv"))
 
 # Attach canopy percentage (MEAN = percent canopy) to the tract data
@@ -66,6 +97,10 @@ triangle <- triangle_tracts %>%
   st_drop_geometry()
 
 # Fix SVI missing values: replace -999 with NA
+triangle$RPL_THEME1[triangle$RPL_THEME1 < 0] <- NA
+triangle$RPL_THEME2[triangle$RPL_THEME2 < 0] <- NA
+triangle$RPL_THEME3[triangle$RPL_THEME3 < 0] <- NA
+triangle$RPL_THEME4[triangle$RPL_THEME4 < 0] <- NA
 triangle$RPL_THEMES[triangle$RPL_THEMES < 0] <- NA
 
 # Structure check
@@ -75,33 +110,71 @@ str(triangle)
 
 
 # Rationale and Research Questions
-Urban tree canopy provides numerous ecological and social benefits, including reduced urban heat, improved air quality, stormwater mitigation, and enhanced mental and physical well-being. However, these benefits are not always equally distributed across communities. Prior research has shown that historically disadvantaged neighborhoods often have lower levels of green space and tree canopy, suggesting a potential environmental justice concern. In North Carolina’s Triangle region (Durham, Wake, and Orange Counties), rapid urbanization and socioeconomic disparities make it particularly important to examine whether socially vulnerable communities experience reduced access to forest cover.
+Urban tree canopy provides a wide range of ecological and social benefits, including mitigation of urban heat, improvement of air quality, regulation of stormwater runoff, and enhancement of physical and mental well-being. However, these benefits are not always distributed equitably across communities. Previous research has demonstrated that neighborhoods facing greater socioeconomic disadvantage often have reduced access to green infrastructure, raising concerns related to environmental justice and urban sustainability.
 
-The Social Vulnerability Index (SVI) summarizes socioeconomic status, household composition, minority status, housing, and transportation characteristics at the census-tract level. Because socially vulnerable communities may face systemic barriers to environmental investment or be located in areas with less green infrastructure, we expect that SVI may be related to tree canopy cover. Using geospatial data from the CDC SVI (2022) and tree canopy cover derived from high-resolution raster datasets, this project evaluates whether socially vulnerable neighborhoods in the Triangle region have lower levels of forest cover.
+The Social Vulnerability Index (SVI) integrates socioeconomic status, household composition, minority status, housing characteristics, and transportation access at the census-tract level. Higher SVI percentiles indicate greater vulnerability and reduced adaptive capacity to environmental stressors. In the rapidly urbanizing Triangle region of North Carolina (Durham, Wake, and Orange Counties), disparities in development patterns and historical land-use decisions may have contributed to unequal distributions of tree canopy cover. As tree canopy plays a critical role in moderating urban environmental conditions, understanding its relationship with social vulnerability is essential for informing equitable urban planning and resource allocation.
 
-Based on this motivation, the present analysis investigates the following research question:
+Based on this context, the present study addresses the following research question:
 
-Research Question
-	1.	Does higher social vulnerability (RPL_THEMES) predict lower percent tree canopy cover in the Triangle region of North Carolina?
+**Research Question**
+
+Does higher social vulnerability, measured by the overall SVI percentile (RPL_THEMES), predict lower percent tree canopy cover across census tracts in the Triangle region of North Carolina?
+
+**Hypothesis**
+
+We hypothesize that census tracts with higher social vulnerability (higher RPL_THEMES values) will exhibit lower mean percent tree canopy cover, reflecting inequities in access to environmental amenities.
 
 \newpage
 
 # Dataset Information
-This project integrates two primary datasets: the CDC/ATSDR Social Vulnerability Index (SVI) 2022 and a tree canopy raster dataset for North Carolina (2016). The SVI dataset is provided as a census-tract–level shapefile and includes percentile-based indicators representing socioeconomic status, household composition, minority status, housing characteristics, and transportation access. Each tract is assigned four theme-specific percentile scores (RPL_THEME1-4) and an overall vulnerability percentile (RPL_THEMES), all ranging from 0 to 1. These percentiles describe a tract’s relative vulnerability compared to all other U.S. census tracts. For this project, only tracts located in Durham, Wake, and Orange Counties were retained.
+This study integrates two primary datasets to examine the relationship between social vulnerability and tree canopy cover in the Triangle region of North Carolina.
 
-The second dataset is a 30-meter resolution raster representing percent tree canopy cover across North Carolina. To quantify forest cover at the census-tract level, the raster was reprojected to match the coordinate system of the SVI shapefile, and the mean canopy value within each census tract was calculated. The resulting metric, stored as percent_canopy, represents the proportion of land area covered by tree canopy in each tract, expressed as a continuous value between 0 and 1.
+## Social Vulnerability Index (SVI 2022)
 
-After combining the two datasets and removing geometric information, the final analysis-ready dataset includes 340 census tracts and the following variables: county name, tract identifier, SVI theme percentiles, overall SVI percentile, and mean tree canopy cover. This integrated dataset enables assessment of whether census tracts with higher social vulnerability also exhibit lower levels of forest canopy, providing insight into potential environmental inequities within the Triangle region.
+Social vulnerability data were obtained from the Centers for Disease Control and Prevention (CDC) / Agency for Toxic Substances and Disease Registry (ATSDR) Social Vulnerability Index (SVI) 2022. The dataset is provided as a census-tract–level shapefile and includes percentile-based indicators summarizing community vulnerability across four thematic dimensions: socioeconomic status, household composition and disability, minority status and language, and housing type and transportation.
+
+For each census tract, the SVI assigns percentile ranks ranging from 0 to 1, where higher values indicate greater vulnerability relative to other U.S. census tracts. In this analysis, we used the overall social vulnerability percentile (RPL_THEMES) as the primary predictor variable. Tracts with missing SVI values, originally coded as -999 in the raw dataset, were treated as missing (NA) and excluded from analyses that required complete data.
+
+Only census tracts located within Durham County, Wake County, and Orange County were retained, resulting in a total of 340 tracts for analysis.
+
+## Tree Canopy Cover Data
+
+Tree canopy cover data were derived from a 30-meter resolution raster dataset representing percent tree canopy cover across North Carolina (2016). The raster was obtained from the North Carolina OneMap data portal and represents the proportion of land surface covered by tree canopy.
+
+To align the canopy data with census-tract boundaries, the raster was reprojected to match the coordinate reference system of the SVI shapefile. Mean percent tree canopy cover was then extracted for each census tract using spatial averaging. The resulting value represents the average proportion of tree canopy cover within each tract and is expressed as a continuous variable ranging from 0 to 1. These extracted values were saved as a processed dataset (triangle_percent_tree_cover.csv) and subsequently joined to the SVI tract-level data for analysis.
+
+## Final Analysis Dataset
+
+After merging the SVI and tree canopy datasets and removing geometric information, the final analysis-ready dataset consists of 340 census tracts and includes county identifiers, tract identifiers, SVI theme percentiles, the overall SVI percentile (RPL_THEMES), and mean percent tree canopy cover. This integrated dataset enables quantitative assessment of whether socially vulnerable communities in the Triangle region experience lower levels of tree canopy cover.
+```{r table1}
+table1 <- tibble(
+  Variable = c("COUNTY", "LOCATION", "RPL_THEMES", "RPL_THEME1", "RPL_THEME2", "RPL_THEME3", "RPL_THEME4", "percent_canopy"),
+  Description = c("County name (Durham/Wake/Orange)",
+                  "Census tract identifier (CDC label)",
+                  "Overall SVI percentile (0–1)",
+                  "Theme 1 percentile: Socioeconomic Status (0–1)",
+                  "Theme 2 percentile: Household Composition & Disability (0–1)",
+                  "Theme 3 percentile: Minority Status & Language (0–1)",
+                  "Theme 4 percentile: Housing Type & Transportation (0–1)",
+                  "Mean tree canopy cover within tract (0–1)")
+)
+
+kable(table1, caption = "Dataset structure (variables and descriptions).")
+
+```
 
 \newpage
 
 # Data Wrangling
-```{r wrangling, iclude=FALSE, warning=FALSE}
+SVI and tree canopy datasets were prepared using a reproducible geospatial workflow in R. First, the CDC/ATSDR SVI 2022 census-tract shapefile was read and filtered to include only tracts within Durham, Wake, and Orange Counties. A subset of SVI variables was retained to focus on the overall vulnerability percentile (RPL_THEMES) and the four theme-specific percentiles (RPL_THEME1–RPL_THEME4), along with supporting sum variables (SPL_THEME1–SPL_THEMES).
+
+Next, tree canopy cover was loaded as a raster dataset and reprojected to match the coordinate reference system used for the tract polygons. Mean canopy cover was extracted for each tract using a spatial average, producing one canopy estimate per tract. Because the raster extraction step is computationally intensive, the extracted tract-level canopy values were saved as a processed file (triangle_percent_tree_cover.csv). In the remainder of this report, we load that processed file and attach it to the tract-level SVI data rather than re-running the extraction.
+```{r wrangling, iclude=FALSE, include=FALSE}
 #extract counties & svi data
 NCtracts = st_read(here('./Data/Raw/SVI2022_NC_byTract/SVI2022_NC_bytract.shp'))
 str(NCtracts)
 triangle_counties = c("Durham County","Wake County", "Orange County")
-triangle_tracts = NCtracts %>% 
+triangle_tracts_svi = NCtracts %>% 
   filter(COUNTY %in% triangle_counties) %>%
   select(COUNTY,
          LOCATION,
@@ -131,13 +204,8 @@ samp = spatSample(tree_cover, size = 1000, method = "random", na.rm = TRUE)
 summary(samp)
 min(samp); max(samp)
 
-percent_forest_cover = extract(tree_cover,triangle_tracts, fun = mean, na.rm = TRUE)
-#triangle_tree_cover = crop(tree_cover, triangle_tracts) 
-#triangle_tree_cover = mask(triangle_tree_cover,triangle_tracts)
-mapview(triangle_tree_cover)
-
 ```
-In the remainder of this report, we use the processed dataset triangle_percent_tree_cover.csv that was generated by this script and loaded in the setup chunk.
+In the setup chunk of this report, we load the processed canopy extraction output (triangle_percent_tree_cover.csv) and attach the extracted mean canopy values to the SVI tract table. We then convert the CDC missing-value flag (-999) to NA for RPL variables to ensure valid summaries and regression modeling.
 
 \newpage
 
@@ -147,19 +215,34 @@ Before conducting statistical modeling, we explored the processed dataset to und
 We began by examining the distribution of percent tree canopy cover. Values range approximately from 0.05 to 0.85, indicating substantial variation in forest cover across neighborhoods. Similarly, SVI percentiles range from 0 to 1, with many tracts clustering toward either low or moderate vulnerability. These initial patterns help frame expectations about potential associations between vulnerability and canopy cover.
 
 Next, we visualized the relationship between SVI and tree canopy. A negative trend is visible: tracts with higher social vulnerability appear to have lower levels of canopy cover, suggesting that disparities in forest access may be present within the Triangle region. This relationship is explored formally in the Analysis section, but preliminary visualization provides useful context for model selection.
-```{r processed}
+```{r mapview-canopy, echo=FALSE, message=FALSE, warning=FALSE}
+# Map the Triangle census tracts
+mapview(
+  triangle_tracts,
+  zcol = "percent_canopy",
+  layer.name = "Mean percent canopy (0–1)"
+)
+```
+
+```{r fig-hist-canopy, echo=FALSE, fig.cap="Distribution of mean percent tree canopy cover across census tracts in the Triangle region."}
 # Distribution of Percent Tree Canopy Cover
 ggplot(triangle, aes(x = percent_canopy)) +
   geom_histogram(bins = 30, fill = "forestgreen", color = "black", alpha = 0.7) +
   labs(x = "Percent Tree Canopy (0–1)", y = "Count of Census Tracts") +
   theme_bw()
 
+```
+
+```{r fig-hist-svi, echo=FALSE, fig.cap="Distribution of overall social vulnerability percentiles (RPL_THEMES)"}
 #Distribution of Overall Social Vulnerability (RPL_THEMES)
 ggplot(triangle, aes(x = RPL_THEMES)) +
   geom_histogram(bins = 30, fill = "steelblue", color = "black", alpha = 0.7) +
   labs(x = "Overall SVI Percentile (0–1)", y = "Count of Census Tracts") +
   theme_bw()
 
+```
+
+```{r fig-scatter-eda, echo=FALSE, fig.cap="Relationship between overall social vulnerability (RPL_THEMES) and mean percent tree canopy cover across census tracts."}
 # Relationship Between Social Vulnerability and Canopy Cover
 ggplot(triangle, aes(x = RPL_THEMES, y = percent_canopy)) +
   geom_point(alpha = 0.7, color = "darkslategray") +
@@ -169,23 +252,22 @@ ggplot(triangle, aes(x = RPL_THEMES, y = percent_canopy)) +
 
 ```
 
-
 # Exploratory Analysis 
 Before conducting statistical analysis, we first explored the distributions of our key variables to understand the overall structure of the dataset. Specifically, we examined (1) percent tree canopy cover across census tracts and (2) the distribution of overall social vulnerability percentiles (RPL_THEMES). We also visualized their bivariate relationship to inform the direction of our hypothesis.
 
-Distribution of Percent Tree Canopy Cover
+## Distribution of Percent Tree Canopy Cover
 
 Figure 1 shows the distribution of mean percent tree canopy cover across 340 census tracts in the Triangle region. Tree canopy values range roughly from 0.15 to 0.80, with most tracts concentrated between 0.40 and 0.60. This indicates substantial variability in urban and suburban forest cover, reflecting the mix of dense urban centers, residential neighborhoods, and forested areas within the region.
 
 This variability is important, as it suggests that different communities experience different levels of access to canopy cover—an essential ecological and social resource.
 
-Distribution of Social Vulnerability
+## Distribution of Social Vulnerability
 
 Figure 2 displays the distribution of overall SVI percentiles (RPL_THEMES). Unlike the canopy distribution, the SVI distribution is left-skewed, with many tracts having low social vulnerability (i.e., low SVI percentiles). A smaller subset of tracts shows high vulnerability, with values approaching 1.
 
 This pattern aligns with known demographic differences among counties: Wake County has many low-SVI tracts, while Durham and Orange include tracts with higher vulnerability.
 
-Preliminary Relationship Between SVI and Tree Canopy
+## Preliminary Relationship Between SVI and Tree Canopy
 
 Figure 3 illustrates the bivariate relationship between overall SVI percentile and percent tree canopy cover. Each point represents a census tract, and the fitted regression line provides a preliminary estimate of the trend.
 
@@ -205,19 +287,13 @@ Higher SVI percentile values indicate greater social vulnerability (i.e., more d
 To test this relationship, we fit a linear regression model using:
 *Predictor: overall SVI percentile (RPL_THEMES)
 *Outcome: percent tree canopy cover (percent_canopy)
-```{r}
+```{r include=FALSE}
 model <- lm(percent_canopy ~ RPL_THEMES, data = triangle)
 summary(model)
 
 par(mfrow=c(2,2))
 plot(model)
 par(mfrow=c(1,1))
-
-ggplot(triangle, aes(x = RPL_THEMES, y = percent_canopy)) +
-  geom_point(alpha = 0.7) +
-  geom_smooth(method = "lm", color = "red", se = TRUE) +
-  labs(x = "Overall SVI Percentile (0–1)",
-       y = "Percent Tree Canopy (0–1)")
 
 ```
 
@@ -242,4 +318,11 @@ Future work could expand the analysis spatially, incorporate multivariate modeli
 \newpage
 
 # References
-<add references here if relevant, otherwise delete this section> 
+
+Centers for Disease Control and Prevention (CDC). (2022). *CDC/ATSDR Social Vulnerability Index (SVI) 2022 Documentation*. https://www.atsdr.cdc.gov/placeandhealth/svi/documentation/SVI_documentation_2022.html
+
+Nowak, D. J., Greenfield, E. J., Hoehn, R. E., & Lapoint, E. (2013). Carbon storage and sequestration by trees in urban and community areas of the United States. *Environmental Pollution, 178*, 229-236. https://doi.org/10.1016/j.envpol.2013.03.019
+
+Riley, C. B., Gardiner, M. M., & Barber, J. R. (2018). Urban tree canopy cover and environmental justice: An analysis of distributional inequities in U.S. cities. *Landscape and Urban Planning, 178*, 108–117. https://doi.org/10.1016/j.landurbplan.2018.05.015
+
+North Carolina Department of Agriculture and Consumer Services (NCDA&CS). (2016). *Forest Land Cover 2016*. NC OneMap. https://www.nconemap.gov/datasets/ncagr::forest-land-cover-2016
