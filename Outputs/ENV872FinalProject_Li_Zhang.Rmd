@@ -232,8 +232,7 @@ mapview(
 # Distribution of Percent Tree Canopy Cover
 ggplot(triangle, aes(x = percent_canopy)) +
   geom_histogram(bins = 30, fill = "forestgreen", color = "black", alpha = 0.7) +
-  labs(x = "Percent Tree Canopy (0–1)", y = "Count of Census Tracts") +
-  theme_bw()
+  labs(x = "Percent Tree Canopy (0-1)", y = "Count of Census Tracts")
 
 ```
 
@@ -241,8 +240,7 @@ ggplot(triangle, aes(x = percent_canopy)) +
 #Distribution of Overall Social Vulnerability (RPL_THEMES)
 ggplot(triangle, aes(x = RPL_THEMES)) +
   geom_histogram(bins = 30, fill = "steelblue", color = "black", alpha = 0.7) +
-  labs(x = "Overall SVI Percentile (0–1)", y = "Count of Census Tracts") +
-  theme_bw()
+  labs(x = "Overall SVI Percentile (0-1)", y = "Count of Census Tracts")
 
 ```
 
@@ -251,8 +249,7 @@ ggplot(triangle, aes(x = RPL_THEMES)) +
 ggplot(triangle, aes(x = RPL_THEMES, y = percent_canopy)) +
   geom_point(alpha = 0.7, color = "darkslategray") +
   geom_smooth(method = "lm", color = "red", se = TRUE) +
-  labs(x = "Overall SVI Percentile (0–1)", y = "Percent Tree Canopy (0–1)") +
-  theme_bw()
+  labs(x = "Overall SVI Percentile (0–1)", y = "Percent Tree Canopy (0-1)")
 
 ```
 
