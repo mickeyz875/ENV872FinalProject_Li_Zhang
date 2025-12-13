@@ -9,7 +9,7 @@ output:
     number_sections: true
     fig_caption: true
     df_print: paged
-  pdf_document:
+  bookdown::pdf_document2:
     keep_tex: yes
     fig_caption: yes
 geometry: margin=2.54cm
@@ -25,6 +25,7 @@ editor_options:
 
 ## List of Tables
 *Dataset Information*
+
 - Table \@ref(tab:table1): Dataset structure (variables and descriptions)
 
 \newpage
@@ -146,17 +147,17 @@ To align the canopy data with census-tract boundaries, the raster was reprojecte
 ## Final Analysis Dataset
 
 After merging the SVI and tree canopy datasets and removing geometric information, the final analysis-ready dataset consists of 340 census tracts and includes county identifiers, tract identifiers, SVI theme percentiles, the overall SVI percentile (RPL_THEMES), and mean percent tree canopy cover. This integrated dataset enables quantitative assessment of whether socially vulnerable communities in the Triangle region experience lower levels of tree canopy cover.
-```{r table1}
+```{r table1, echo=FALSE}
 table1 <- tibble(
   Variable = c("COUNTY", "LOCATION", "RPL_THEMES", "RPL_THEME1", "RPL_THEME2", "RPL_THEME3", "RPL_THEME4", "percent_canopy"),
   Description = c("County name (Durham/Wake/Orange)",
                   "Census tract identifier (CDC label)",
-                  "Overall SVI percentile (0–1)",
-                  "Theme 1 percentile: Socioeconomic Status (0–1)",
-                  "Theme 2 percentile: Household Composition & Disability (0–1)",
-                  "Theme 3 percentile: Minority Status & Language (0–1)",
-                  "Theme 4 percentile: Housing Type & Transportation (0–1)",
-                  "Mean tree canopy cover within tract (0–1)")
+                  "Overall SVI percentile (0-1)",
+                  "Theme 1 percentile: Socioeconomic Status (0-1)",
+                  "Theme 2 percentile: Household Composition & Disability (0-1)",
+                  "Theme 3 percentile: Minority Status & Language (0-1)",
+                  "Theme 4 percentile: Housing Type & Transportation (0-1)",
+                  "Mean tree canopy cover within tract (0-1)")
 )
 
 kable(table1, caption = "Dataset structure (variables and descriptions).")
@@ -210,11 +211,14 @@ In the setup chunk of this report, we load the processed canopy extraction outpu
 \newpage
 
 # Exploration of Processed Data
-Before conducting statistical modeling, we explored the processed dataset to understand the distribution of social vulnerability and tree canopy cover across census tracts in the Triangle region. The dataset contains 340 tracts, each with an overall SVI percentile (RPL_THEMES), four theme-specific percentiles, and the extracted mean tree canopy proportion.
+Before conducting statistical modeling, we explored the processed dataset to understand the distribution and spatial pattern of social vulnerability and tree canopy cover across census tracts in the Triangle region. The dataset contains 340 tracts, each with an overall SVI percentile (RPL_THEMES), four theme-specific percentiles, and the extracted mean tree canopy proportion.
 
-We began by examining the distribution of percent tree canopy cover. Values range approximately from 0.05 to 0.85, indicating substantial variation in forest cover across neighborhoods. Similarly, SVI percentiles range from 0 to 1, with many tracts clustering toward either low or moderate vulnerability. These initial patterns help frame expectations about potential associations between vulnerability and canopy cover.
+We first examined the spatial distribution of tree canopy cover using an interactive map. This visualization provides geographic context and allows for exploration of how canopy cover varies across census tracts in Durham, Wake, and Orange Counties. The map is intended to support spatial orientation rather than formal statistical inference.
 
-Next, we visualized the relationship between SVI and tree canopy. A negative trend is visible: tracts with higher social vulnerability appear to have lower levels of canopy cover, suggesting that disparities in forest access may be present within the Triangle region. This relationship is explored formally in the Analysis section, but preliminary visualization provides useful context for model selection.
+We then examined the distribution of percent tree canopy cover across tracts. Values range approximately from 0.05 to 0.85, indicating substantial variation in forest cover across neighborhoods. Similarly, SVI percentiles range from 0 to 1, with many tracts clustering toward either low or moderate vulnerability. These univariate distributions help characterize the overall structure of the dataset.
+
+Finally, we visualized the bivariate relationship between social vulnerability and tree canopy cover. A negative trend is visible: tracts with higher social vulnerability tend to exhibit lower levels of canopy cover, suggesting that disparities in access to forested environments may be present within the Triangle region. This pattern motivates the formal regression analysis presented in the subsequent section.
+
 ```{r mapview-canopy, echo=FALSE, message=FALSE, warning=FALSE}
 # Map the Triangle census tracts
 mapview(
@@ -278,38 +282,40 @@ This exploratory visualization supports the motivation for conducting a formal l
 \newpage
 
 # Analysis
-Research Question
+## Question 1: Does higher social vulnerability, measured by the overall SVI percentile (RPL_THEMES), predict lower percent tree canopy cover across census tracts in the Triangle region of North Carolina?
 
-Does social vulnerability (overall SVI percentile, RPL_THEMES) significantly predict percent tree canopy cover across census tracts in the Triangle region?
+To formally evaluate whether social vulnerability predicts tree canopy cover, we conducted a simple linear regression analysis at the census-tract level.
 
-Higher SVI percentile values indicate greater social vulnerability (i.e., more disadvantaged communities). If environmental inequities are present, we would expect more vulnerable communities to have lower levels of tree canopy cover.
+The model specification was:
 
-To test this relationship, we fit a linear regression model using:
-*Predictor: overall SVI percentile (RPL_THEMES)
-*Outcome: percent tree canopy cover (percent_canopy)
+- **Response variable**: mean percent tree canopy cover (percent_canopy)  
+- **Predictor variable**: overall social vulnerability percentile (RPL_THEMES)
+
+Higher values of RPL_THEMES indicate greater social vulnerability. If environmental inequities are present, we would expect a negative relationship between social vulnerability and tree canopy cover.
+
+A linear regression model was fit using ordinary least squares:
+
 ```{r include=FALSE}
 model <- lm(percent_canopy ~ RPL_THEMES, data = triangle)
 summary(model)
 
-par(mfrow=c(2,2))
+par(mfrow = c(2,2))
 plot(model)
-par(mfrow=c(1,1))
+par(mfrow = c(1,1))
 
 ```
+The regression results indicate a negative association between social vulnerability and percent tree canopy cover. Census tracts with higher overall SVI percentiles tend to have lower mean tree canopy cover. Although the model explains a modest proportion of the total variance in canopy cover, the direction and significance of the relationship are consistent with expectations under an environmental justice framework.
 
+Model diagnostic plots did not reveal strong violations of linear regression assumptions. Residuals were approximately normally distributed, and no extreme patterns of heteroscedasticity were observed. However, substantial unexplained variability remains, suggesting that additional factors, such as land-use history, zoning, population density, or municipal investment, also influence tree canopy distribution.
 
-
-## Question 1: <insert specific question here and add additional subsections for additional questions below, if needed>
-
-## Question 2: 
-
+Overall, this analysis provides quantitative evidence that social vulnerability is associated with reduced access to tree canopy cover across census tracts in the Triangle region.
 
 \newpage
 
 # Summary and Conclusions
 This project examined whether social vulnerability is associated with tree canopy cover across census tracts in the Triangle region of North Carolina. Using the CDC Social Vulnerability Index (SVI) and remotely sensed percent canopy cover, we evaluated how overall community vulnerability (RPL_THEMES) relates to access to forested and green spaces.
 
-Our exploratory analysis revealed a clear downward trend between percent canopy cover and SVI percentile ranks, suggesting that tracts with higher vulnerability tend to have lower levels of tree canopy. The linear regression model confirmed this pattern statistically: social vulnerability significantly predicts tree canopy cover, with higher SVI scores associated with reduced canopy percentages. Although the model explains a modest portion of the total variation—expected in complex social–ecological systems—the significance of the relationship indicates a consistent and meaningful trend across the region.
+Our exploratory analysis revealed a clear downward trend between percent canopy cover and SVI percentile ranks, suggesting that tracts with higher vulnerability tend to have lower levels of tree canopy. The linear regression model was consistent with this pattern, indicating that higher social vulnerability is associated with lower tree canopy cover. Although the model explains a modest portion of the total variation-expected in complex social-ecological systems-the significance of the relationship indicates a consistent and meaningful trend across the region.
 
 These findings highlight a potential environmental equity concern. Communities with greater socioeconomic, demographic, or housing-related vulnerabilities may also experience reduced access to tree canopy, which is linked to numerous health and environmental benefits, including heat mitigation, air quality improvement, and psychological well-being. While additional variables (e.g., zoning, historical land use, income, development density) would help explain more of the variation, the results here provide a foundational, data-driven indication of disparities in green space distribution.
 
