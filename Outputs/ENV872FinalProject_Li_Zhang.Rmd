@@ -167,7 +167,7 @@ kable(table1, caption = "Dataset structure (variables and descriptions).")
 \newpage
 
 # Data Wrangling
-SVI and tree canopy datasets were prepared using a reproducible geospatial workflow in R. First, the CDC/ATSDR SVI 2022 census-tract shapefile was read and filtered to include only tracts within Durham, Wake, and Orange Counties. A subset of SVI variables was retained to focus on the overall vulnerability percentile (RPL_THEMES) and the four theme-specific percentiles (RPL_THEME1–RPL_THEME4), along with supporting sum variables (SPL_THEME1–SPL_THEMES).
+SVI and tree canopy datasets were prepared using a reproducible geospatial workflow in R. First, the CDC/ATSDR SVI 2022 census-tract shapefile was read and filtered to include only tracts within Durham, Wake, and Orange Counties. A subset of SVI variables was retained to focus on the overall vulnerability percentile (RPL_THEMES) and the four theme-specific percentiles (RPL_THEME1-RPL_THEME4), along with supporting sum variables (SPL_THEME1-SPL_THEMES).
 
 Next, tree canopy cover was loaded as a raster dataset and reprojected to match the coordinate reference system used for the tract polygons. Mean canopy cover was extracted for each tract using a spatial average, producing one canopy estimate per tract. Because the raster extraction step is computationally intensive, the extracted tract-level canopy values were saved as a processed file (triangle_percent_tree_cover.csv). In the remainder of this report, we load that processed file and attach it to the tract-level SVI data rather than re-running the extraction.
 ```{r wrangling, iclude=FALSE, include=FALSE}
