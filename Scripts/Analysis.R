@@ -66,8 +66,7 @@ ggplot(triangle, aes(x = percent_canopy)) +
     x = "Percent Tree Canopy (0–1)",
     y = "Number of Census Tracts",
     title = "Distribution of Mean Tree Canopy Cover"
-  ) +
-  theme_bw()
+  )
 
 ## 3.3 Distribution of social vulnerability
 ggplot(triangle, aes(x = RPL_THEMES)) +
@@ -81,8 +80,7 @@ ggplot(triangle, aes(x = RPL_THEMES)) +
     x = "Overall Social Vulnerability Index (0–1)",
     y = "Number of Census Tracts",
     title = "Distribution of Social Vulnerability (RPL_THEMES)"
-  ) +
-  theme_bw()
+  )
 
 ## 3.4 Bivariate relationship: SVI vs canopy
 ggplot(triangle, aes(x = RPL_THEMES, y = percent_canopy)) +
@@ -92,8 +90,7 @@ ggplot(triangle, aes(x = RPL_THEMES, y = percent_canopy)) +
     x = "Overall Social Vulnerability Index (0–1)",
     y = "Percent Tree Canopy (0–1)",
     title = "Relationship Between Social Vulnerability and Tree Canopy"
-  ) +
-  theme_bw()
+  )
 
 # 4. Statistical Analysis
 
