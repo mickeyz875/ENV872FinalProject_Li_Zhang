@@ -64,9 +64,9 @@ Raw Data:
 
 1. Social Vulnerability Index (SVI) 2022 — Census Tract Shapefile
 
-I. File path:`Data/Raw/SVI2022_NC_byTract/`
+    I. File path:`Data/Raw/SVI2022_NC_byTract/`
 
-II. Files included:
+    II. Files included:
 - `SVI2022_NC_bytract.shp`  
 - `SVI2022_NC_bytract.dbf`  
 - `SVI2022_NC_bytract.shx`  
@@ -77,11 +77,11 @@ II. Files included:
 - `SVI2022_NC_bytract.shp.xml`  
 - `SVI2022Documentation_ZCTA.pdf`
 
-III. Source: Centers for Disease Control and Prevention (CDC) / Agency for Toxic Substances and Disease Registry (ATSDR), Social Vulnerability Index (SVI) 2022.
+    III. Source: Centers for Disease Control and Prevention (CDC) / Agency for Toxic Substances and Disease Registry (ATSDR), Social Vulnerability Index (SVI) 2022.
 
-IV. Description: This spatial dataset contains census-tract-level Social Vulnerability Index (SVI) metrics for the state of North Carolina. Each tract is represented as a polygon with associated demographic and socioeconomic indicators summarized as percentile rankings.
+    IV. Description: This spatial dataset contains census-tract-level Social Vulnerability Index (SVI) metrics for the state of North Carolina. Each tract is represented as a polygon with associated demographic and socioeconomic indicators summarized as percentile rankings.
 
-V. Variables used in this project:
+    V. Variables used in this project:
 
 | Column name | Description | Data type | Units |
 |------------|------------|----------|-------|
@@ -94,7 +94,7 @@ V. Variables used in this project:
 | RPL_THEMES | Overall Social Vulnerability percentile | numeric | 0–1 |
 | geometry | Census tract polygon geometry | sf geometry | meters (projected CRS) |
 
-VI. Notes:
+    VI. Notes:
 - Percentile values range from 0 (lowest vulnerability) to 1 (highest vulnerability).
 - Missing values in the original dataset are coded as `-999` and are converted to `NA` during data preparation.
 - Only census tracts from **Durham County, Wake County, and Orange County** are used in this analysis.
@@ -103,11 +103,11 @@ Processed Data:
 
 2. Mean Percent Tree Canopy Cover by Census Tract
 
-I. File path: `Data/Processed/triangle_percent_tree_cover.csv`
+    I. File path: `Data/Processed/triangle_percent_tree_cover.csv`
 
-II. Description: This processed dataset contains mean tree canopy cover values extracted for each census tract in the Triangle region. Values were derived by spatially averaging a 30-meter resolution tree canopy raster within census tract boundaries.
+    II. Description: This processed dataset contains mean tree canopy cover values extracted for each census tract in the Triangle region. Values were derived by spatially averaging a 30-meter resolution tree canopy raster within census tract boundaries.
 
-III. Variables:
+    III. Variables:
 
 | Column name | Description | Data type | Units |
 |------------|------------|----------|-------|
@@ -116,7 +116,7 @@ III. Variables:
 | AREA | Total area used in extraction | numeric | square meters |
 | MEAN | Mean proportion of tree canopy cover within the tract | numeric | proportion (0–1) |
 
-IV. Notes:
+    IV. Notes:
 - The `MEAN` column represents the final percent tree canopy variable used in statistical analysis.
 - This dataset is joined to the SVI tract-level data during analysis using row order correspondence.
 
