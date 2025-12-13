@@ -87,11 +87,11 @@ Raw Data:
 |------------|------------|----------|-------|
 | COUNTY | County name | character / factor | N/A |
 | LOCATION | Census tract identifier (CDC label) | character / factor | N/A |
-| RPL_THEME1 | Theme 1 percentile: Socioeconomic Status | numeric | 0–1 |
-| RPL_THEME2 | Theme 2 percentile: Household Composition & Disability | numeric | 0–1 |
-| RPL_THEME3 | Theme 3 percentile: Minority Status & Language | numeric | 0–1 |
-| RPL_THEME4 | Theme 4 percentile: Housing Type & Transportation | numeric | 0–1 |
-| RPL_THEMES | Overall Social Vulnerability percentile | numeric | 0–1 |
+| RPL_THEME1 | Theme 1 percentile: Socioeconomic Status | numeric | 0-1 |
+| RPL_THEME2 | Theme 2 percentile: Household Composition & Disability | numeric | 0-1 |
+| RPL_THEME3 | Theme 3 percentile: Minority Status & Language | numeric | 0-1 |
+| RPL_THEME4 | Theme 4 percentile: Housing Type & Transportation | numeric | 0-1 |
+| RPL_THEMES | Overall Social Vulnerability percentile | numeric | 0-1 |
 | geometry | Census tract polygon geometry | sf geometry | meters (projected CRS) |
 
     VI. Notes:
@@ -114,7 +114,7 @@ Processed Data:
 | OBJECTID_First | Unique identifier generated during spatial extraction | integer | N/A |
 | COUNT | Number of raster cells used in the extraction | numeric | cells |
 | AREA | Total area used in extraction | numeric | square meters |
-| MEAN | Mean proportion of tree canopy cover within the tract | numeric | proportion (0–1) |
+| MEAN | Mean proportion of tree canopy cover within the tract | numeric | proportion (0-1) |
 
     IV. Notes:
   - The `MEAN` column represents the final percent tree canopy variable used in statistical analysis.
