@@ -67,15 +67,15 @@ Raw Data:
     I. File path:`Data/Raw/SVI2022_NC_byTract/`
 
     II. Files included:
-- `SVI2022_NC_bytract.shp`  
-- `SVI2022_NC_bytract.dbf`  
-- `SVI2022_NC_bytract.shx`  
-- `SVI2022_NC_bytract.prj`  
-- `SVI2022_NC_bytract.cpg`  
-- `SVI2022_NC_bytract.sbn`  
-- `SVI2022_NC_bytract.sbx`  
-- `SVI2022_NC_bytract.shp.xml`  
-- `SVI2022Documentation_ZCTA.pdf`
+  - `SVI2022_NC_bytract.shp`  
+  - `SVI2022_NC_bytract.dbf`  
+  - `SVI2022_NC_bytract.shx`  
+  - `SVI2022_NC_bytract.prj`  
+  - `SVI2022_NC_bytract.cpg`  
+  - `SVI2022_NC_bytract.sbn`  
+  - `SVI2022_NC_bytract.sbx`  
+  - `SVI2022_NC_bytract.shp.xml`  
+  - `SVI2022Documentation_ZCTA.pdf`
 
     III. Source: Centers for Disease Control and Prevention (CDC) / Agency for Toxic Substances and Disease Registry (ATSDR), Social Vulnerability Index (SVI) 2022.
 
@@ -95,9 +95,9 @@ Raw Data:
 | geometry | Census tract polygon geometry | sf geometry | meters (projected CRS) |
 
     VI. Notes:
-- Percentile values range from 0 (lowest vulnerability) to 1 (highest vulnerability).
-- Missing values in the original dataset are coded as `-999` and are converted to `NA` during data preparation.
-- Only census tracts from **Durham County, Wake County, and Orange County** are used in this analysis.
+  - Percentile values range from 0 (lowest vulnerability) to 1 (highest vulnerability).
+  - Missing values in the original dataset are coded as `-999` and are converted to `NA` during data preparation.
+  - Only census tracts from **Durham County, Wake County, and Orange County** are used in this analysis.
 
 Processed Data:
 
@@ -117,8 +117,8 @@ Processed Data:
 | MEAN | Mean proportion of tree canopy cover within the tract | numeric | proportion (0–1) |
 
     IV. Notes:
-- The `MEAN` column represents the final percent tree canopy variable used in statistical analysis.
-- This dataset is joined to the SVI tract-level data during analysis using row order correspondence.
+  - The `MEAN` column represents the final percent tree canopy variable used in statistical analysis.
+  - This dataset is joined to the SVI tract-level data during analysis using row order correspondence.
 
 Derived Analysis Dataset:
 
